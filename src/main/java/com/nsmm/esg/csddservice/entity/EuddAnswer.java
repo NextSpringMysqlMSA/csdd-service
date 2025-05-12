@@ -1,6 +1,5 @@
 package com.nsmm.esg.csddservice.entity;
 
-import com.nsmm.esg.csddservice.dto.EuddRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,29 +10,21 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "eudd")
-public class Eudd {
+@Table(name = "eudd_answer")
+public class EuddAnswer {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private Long memberId;
 
-    @Column(nullable = false)
-    private String country;
+    @Column(nullable = false, length = 50)
+    private String questionId;  // 예: "EUDD-1-01"
 
     @Column(nullable = false)
-    private String type;
-
-    @Column(nullable = false)
-    private String penalty;
-
-    @Column(nullable = false)
-    private String criminal;
-
-    @Column(nullable = false)
-    private String law;
+    private boolean answer;     // true = 예, false = 아니오
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -48,13 +39,5 @@ public class Eudd {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public void updateFromDto(EuddRequest request) {
-        this.country = request.getCountry();
-        this.type = request.getType();
-        this.penalty = request.getPenalty();
-        this.criminal = request.getCriminal();
-        this.law = request.getLaw();
     }
 }
