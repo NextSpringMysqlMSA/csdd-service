@@ -1,6 +1,6 @@
 package com.nsmm.esg.csddservice.service;
 
-import com.nsmm.esg.csddservice.dto.EuddViolationDto;
+import com.nsmm.esg.csddservice.dto.EuddViolationResponse;
 import com.nsmm.esg.csddservice.entity.EuddViolation;
 import com.nsmm.esg.csddservice.repository.EuddViolationRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,20 +15,9 @@ public class EuddViolationService {
 
     private final EuddViolationRepository euddViolationRepository;
 
-    public List<EuddViolationDto> getViolationsByIds(List<String> ids) {
+    public List<EuddViolationResponse> getViolationsByIds(List<String> ids) {
         return euddViolationRepository.findAllById(ids).stream()
-                .map(this::toDto)
+                .map(EuddViolationResponse::fromEntity)
                 .collect(Collectors.toList());
-    }
-
-    private EuddViolationDto toDto(EuddViolation entity) {
-        return EuddViolationDto.builder()
-                .id(entity.getId())
-                .questionText(entity.getQuestionText())
-                .legalRelevance(entity.getLegalRelevance())
-                .legalBasis(entity.getLegalBasis())
-                .fineRange(entity.getFineRange())
-                .criminalLiability(entity.getCriminalLiability())
-                .build();
     }
 }
