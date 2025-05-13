@@ -1,4 +1,7 @@
 package com.nsmm.esg.csddservice.repository;
 
-public class EddViolationRepository {
+import com.nsmm.esg.csddservice.entity.EddViolation;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EddViolationRepository extends JpaRepository<EddViolation, String> {
 }
