@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface HrddAnswerRepository extends JpaRepository<HrddAnswer, Long> {
-
-s
     // "아니오(false)"로 응답한 항목만 조회
     List<HrddAnswer> findByMemberIdAndAnswerFalse(Long memberId);
 
