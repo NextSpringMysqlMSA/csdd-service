@@ -46,22 +46,6 @@ public class EddAnswerController {
         return eddAnswerService.getStoredViolationsByMemberId(memberId);
     }
 
-    /**
-     * 최초 자가진단 응답 제출 및 위반 항목 분석 결과 반환
-     * - 응답 저장 + 위반 questionId 식별 → violation 정보 반환
-     */
-    @PostMapping("/submit")
-    public List<EddViolationResponse> submitAnswers(
-            @RequestBody EddAnswerRequest request,
-            HttpServletRequest httpRequest
-    ) {
-        Long memberId = extractMemberId(httpRequest);
-
-        List<String> violatedQuestionIds =
-                eddAnswerService.saveAnswersAndGetViolatedQuestionIds(memberId, request);
-
-        return eddViolationService.getViolationsByIds(violatedQuestionIds);
-    }
 
     /**
      * 기존 응답 갱신 (삭제 후 재저장) 및 위반 항목 분석

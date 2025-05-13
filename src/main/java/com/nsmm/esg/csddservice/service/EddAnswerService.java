@@ -51,14 +51,4 @@ public class EddAnswerService {
         eddAnswerRepository.deleteByMemberId(memberId);
     }
 
-    /**
-     * 응답 갱신 (삭제 후 재저장)
-     */
-    @Transactional
-    public void updateAnswers(Long memberId, EddAnswerRequest request) {
-        eddAnswerRepository.deleteByMemberId(memberId);
-
-        List<EddAnswer> updatedAnswers = request.toEntities(memberId);
-        eddAnswerRepository.saveAll(updatedAnswers);
-    }
 }

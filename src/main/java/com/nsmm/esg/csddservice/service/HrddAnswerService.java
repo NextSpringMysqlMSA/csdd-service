@@ -51,14 +51,4 @@ public class HrddAnswerService {
         hrddAnswerRepository.deleteByMemberId(memberId);
     }
 
-    /**
-     * 응답 갱신 (삭제 후 재저장)
-     */
-    @Transactional
-    public void updateAnswers(Long memberId, HrddAnswerRequest request) {
-        hrddAnswerRepository.deleteByMemberId(memberId);
-
-        List<HrddAnswer> updatedAnswers = request.toEntities(memberId);
-        hrddAnswerRepository.saveAll(updatedAnswers);
-    }
 }
