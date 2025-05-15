@@ -3,12 +3,16 @@ package com.nsmm.esg.csddservice.service;
 import com.nsmm.esg.csddservice.dto.EuddAnswerRequest;
 import com.nsmm.esg.csddservice.dto.EuddViolationResponse;
 import com.nsmm.esg.csddservice.entity.EuddAnswer;
+import com.nsmm.esg.csddservice.exception.InvalidAnswerException;
+import com.nsmm.esg.csddservice.exception.UnauthorizedCsddAccessException;
 import com.nsmm.esg.csddservice.repository.EuddAnswerRepository;
+import com.nsmm.esg.csddservice.repository.EuddViolationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -16,13 +20,17 @@ public class EuddAnswerService {
 
     private final EuddAnswerRepository euddAnswerRepository;
     private final EuddViolationService euddViolationService;
+    private final EuddViolationRepository euddViolationRepository;
 
     /**
      * 설문 저장 및 위반 항목 반환
      */
     public List<String> saveAnswersAndGetViolatedQuestionIds(Long memberId, EuddAnswerRequest request) {
-        List<EuddAnswer> answers = request.toEntities(memberId);
+        // 유효성 검사
+        validateQuestionIds(request.getAnswers());
 
+        // 저장
+        List<EuddAnswer> answers = request.toEntities(memberId);
         euddAnswerRepository.saveAll(answers);
 
         return answers.stream()
@@ -51,4 +59,34 @@ public class EuddAnswerService {
         euddAnswerRepository.deleteByMemberId(memberId);
     }
 
+    /**
+     * 존재하지 않는 질문 ID가 포함되었는지 검증
+     */
+    private void validateQuestionIds(Map<String, Boolean> answers) {
+        List<String> validIds = euddViolationRepository.findAll().stream()
+                .map(v -> v.getId())
+                .toList();
+
+        for (String id : answers.keySet()) {
+            if (!validIds.contains(id)) {
+                throw new InvalidAnswerException("존재하지 않는 질문 ID입니다: " + id);
+            }
+        }
+    }
+
+    /**
+     * 응답 주인이 맞는지 확인
+     */
+    public void validateOwnership(Long requestingMemberId, Map<String, Boolean> newAnswers) {
+        List<String> existingQuestionIds = euddAnswerRepository.findByMemberIdAndAnswerFalse(requestingMemberId)
+                .stream()
+                .map(EuddAnswer::getQuestionId)
+                .toList();
+
+        for (String id : newAnswers.keySet()) {
+            if (!existingQuestionIds.contains(id)) {
+                throw new UnauthorizedCsddAccessException("본인이 제출한 항목만 수정할 수 있습니다: " + id);
+            }
+        }
+    }
 }
