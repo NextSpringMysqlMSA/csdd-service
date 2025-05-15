@@ -70,7 +70,7 @@ public class HrddAnswerService {
         for (String id : answers.keySet()) {
             if (!validIds.contains(id)) {
                 throw new InvalidAnswerException("존재하지 않는 질문 ID입니다: " + id);
-            }
+            } 
         }
     }
 

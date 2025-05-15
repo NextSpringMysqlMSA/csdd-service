@@ -33,17 +33,4 @@ public class ErrorResponse {
                 .path(path)
                 .build();
     }
-
-    /**
-     * 필드 유효성 검증 오류와 함께 에러 응답 생성
-     */
-    public static ErrorResponse of(String errorCode, String message, String path, Map<String, String> errors) {
-        return ErrorResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .errorCode(errorCode)
-                .message(message)
-                .path(path)
-                .errors(errors)
-                .build();
-    }
 }
