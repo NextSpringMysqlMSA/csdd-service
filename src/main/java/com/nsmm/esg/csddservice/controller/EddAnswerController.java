@@ -66,7 +66,7 @@ public class EddAnswerController {
         Long memberId = extractMemberId(httpRequest);
 
         // 🔐 기존 응답이 존재하는지 검증 (권한 확인)
-        eddAnswerService.validateOwnership(memberId, request.getAnswers());
+//        eddAnswerService.validateOwnership(memberId, request.getAnswers());
 
         eddAnswerService.deleteByMemberId(memberId); // 기존 응답 삭제
         List<String> violatedQuestionIds =

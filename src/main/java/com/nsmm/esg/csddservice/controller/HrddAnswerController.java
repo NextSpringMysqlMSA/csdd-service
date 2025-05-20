@@ -66,7 +66,7 @@ public class HrddAnswerController {
         Long memberId = extractMemberId(httpRequest);
 
         // 🔐 기존 응답이 존재하는지 검증 (권한 확인)
-        hrddAnswerService.validateOwnership(memberId, request.getAnswers());
+//        hrddAnswerService.validateOwnership(memberId, request.getAnswers());
 
         hrddAnswerService.deleteByMemberId(memberId); // 기존 응답 삭제
         List<String> violatedQuestionIds =

@@ -23,7 +23,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/api/v1/csdd/**").permitAll() 
+                        .requestMatchers("/api/v1/csdd/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()    // Actuator 엔드포인트 접근 허용
                         .anyRequest().denyAll()
                 );
 
