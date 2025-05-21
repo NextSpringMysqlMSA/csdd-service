@@ -30,5 +30,14 @@ flowchart TD
     GetReq --> LoadStored["저장된 위반 결과 불러오기"]
     LoadStored --> GetResp["분석 결과 반환"]
     GetResp --> End5((End))
-```
 
+%% ───── 스타일 정의 ─────
+    classDef forest fill:#e6f4ea,stroke:#2e7d32,stroke-width:1.5px,color:#2e7d32;
+    classDef terminal fill:#d0f0c0,stroke:#1b5e20,color:#1b5e20;
+    classDef error fill:#fdecea,stroke:#c62828,color:#c62828;
+
+%% ───── 클래스 적용 ─────
+    class Start,End1,End2,End3,End4,End5 terminal;
+    class Auth,AuthCheck,Router,PostReq,SaveAns,FindViol,PostResp,PutReq,CheckOwner,DeleteOld,SaveNew,FindViol2,PutResp,GetReq,LoadStored,GetResp forest;
+    class Error401,Error403 error;
+```
