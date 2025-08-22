@@ -74,19 +74,5 @@ public class HrddAnswerService {
         }
     }
 
-    /**
-     * 응답 주인이 맞는지 확인
-     */
-//    public void validateOwnership(Long requestingMemberId, Map<String, Boolean> newAnswers) {
-//        List<String> existingQuestionIds = hrddAnswerRepository.findByMemberIdAndAnswerFalse(requestingMemberId)
-//                .stream()
-//                .map(HrddAnswer::getQuestionId)
-//                .toList();
-//
-//        for (String id : newAnswers.keySet()) {
-//            if (!existingQuestionIds.contains(id)) {
-//                throw new UnauthorizedCsddAccessException("본인이 제출한 항목만 수정할 수 있습니다: " + id);
-//            }
-//        }
-//    }
+
 }

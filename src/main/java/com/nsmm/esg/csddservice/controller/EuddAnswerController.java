@@ -22,7 +22,7 @@ public class EuddAnswerController {
     private Long extractMemberId(HttpServletRequest request) {
         String memberIdHeader = request.getHeader("X-MEMBER-ID");
         if (memberIdHeader == null || memberIdHeader.isBlank()) {
-            System.out.println("⚠️ X-MEMBER-ID 누락 → 기본값 1L 사용");
+            System.out.println("X-MEMBER-ID 누락 → 기본값 1L 사용");
             return 1L;
         }
         return Long.parseLong(memberIdHeader);
@@ -65,8 +65,6 @@ public class EuddAnswerController {
     ) {
         Long memberId = extractMemberId(httpRequest);
 
-        // 🔐 기존 응답이 존재하는지 검증 (권한 확인)
-//        euddAnswerService.validateOwnership(memberId, request.getAnswers());
 
         euddAnswerService.deleteByMemberId(memberId); // 기존 응답 삭제
         List<String> violatedQuestionIds =
